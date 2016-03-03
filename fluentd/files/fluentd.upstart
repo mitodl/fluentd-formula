@@ -1,0 +1,8 @@
+description "Event processing framework"
+author "Tobias Macey"
+start on filesystem or runlevel [2345]
+stop on shutdown
+
+script
+  /usr/local/bin/fluentd -c /etc/fluent/fluent.conf -d /var/run/fluentd.pid
+end script

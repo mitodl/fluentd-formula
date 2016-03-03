@@ -1,0 +1,6 @@
+fluentd:
+  lookup:
+    pkg: myfluentd
+    conf_file: /usr/local/etc/fluentd/fluentd.conf
+  config:
+    key: othervalue
