@@ -13,7 +13,7 @@ def RubyGem(Command):
             else:
                 args = ['gem list']
             for line in Command.check_output(*args).split('\n'):
-                gem_re = re.compile('^(\w+) \((.*?)\)$')
+                gem_re = re.compile('^([A-Za-z-_1-9]+) \((.*?)\)$')
                 if re.match(gem_re, line):
                     name, version = re.search(gem_re, line).groups()
                     self.gem_dict[name] = version
