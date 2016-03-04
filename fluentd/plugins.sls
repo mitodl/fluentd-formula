@@ -1,5 +1,12 @@
-{% for plugin in salt.pillar.get('fluentd:plugins') %}
-fluentd_install_{{ plugin.name }}:
-  cmd.run:
-    - name: /usr/local/bin/fluentd-plugin install {{ plugin.name }}
-{% endfor %}
+{% if salt.pillar.get('fluentd:plugin_dependencies') %}
+install_fluentd_plugin_dependencies:
+  pkg.installed:
+    - pkgs: {{ salt.pillar.get('fluentd:plugin_dependencies') }}
+    - refresh: True
+    - require_in:
+        - gem: install_fluentd_plugins
+{% endif %}
+
+install_fluentd_plugins:
+  gem.installed:
+    - names: {{ salt.pillar.get('fluentd:plugins') }}

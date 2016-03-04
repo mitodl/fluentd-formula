@@ -19,4 +19,6 @@ base:
 echo "\
 base:
   '*':
-    - fluentd" | sudo tee /srv/salt/top.sls
+    - fluentd
+    - fluentd.plugins
+    - fluentd.config" | sudo tee /srv/salt/top.sls

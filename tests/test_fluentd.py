@@ -21,6 +21,8 @@ def test_service_file_exists(File, Command):
     else:
         service_definition = File('/etc/init/fluentd')
     assert service_definition.exists
+    assert File('/usr/local/bin/fluentd.sh').exists
+    assert File('/usr/local/bin/fluentd.sh').mode == 0o755
 
 
 def test_fluentd_service(Service):
