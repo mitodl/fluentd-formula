@@ -1,5 +1,6 @@
 def test_dependencies_installed(Package):
-    assert Package('libpq-dev').is_installed
+    assert (Package('libpq-dev').is_installed or
+            Package('libpqxx-devel').is_installed)
 
 
 def test_plugins_installed(RubyGem):

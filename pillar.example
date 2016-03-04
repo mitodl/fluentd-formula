@@ -8,7 +8,7 @@ fluentd:
     {% if grains['os_family'] == 'Debian' %}
     - libpq-dev
     {% elif grains['os_family'] == 'RedHat' %}
-    - libqxx-devel
+    - libpqxx-devel
     {% endif %}
   configs:
     - name: elasticsearch

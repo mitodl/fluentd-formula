@@ -15,11 +15,11 @@ def test_control_script_exists(File):
 
 
 def test_service_file_exists(File, Command):
-    has_systemd = Command.check_output('which systemctl')
+    has_systemd = Command('which systemctl').stdout
     if has_systemd:
         service_definition = File('/etc/systemd/system/fluentd.service')
     else:
-        service_definition = File('/etc/init/fluentd')
+        service_definition = File('/etc/init/fluentd.conf')
     assert service_definition.exists
     assert File('/usr/local/bin/fluentd.sh').exists
     assert File('/usr/local/bin/fluentd.sh').mode == 0o755
