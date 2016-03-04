@@ -6,4 +6,12 @@ add_fluent_{{ config.name }}_config:
     - template: jinja
     - context:
         settings: {{ config.settings }}
+    - watch_in:
+        - service: reload_fluentd_service
 {% endfor %}
+
+reload_fluentd_service:
+  service.running:
+    - name: fluentd
+    - enable: True
+    - reload: True
