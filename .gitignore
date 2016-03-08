@@ -1,2 +1,5 @@
-.vagrant/*
+\.vagrant/*
 *~
+*\.pyc
+__pycache__/
+tests/\.cache/
