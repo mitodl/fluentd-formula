@@ -1,0 +1,15 @@
+[Unit]
+Description=FluentD log processing framework
+Documentation=http://docs.fluentd.org/articles/quickstart
+
+[Service]
+Type=forking
+ExecStart=/usr/local/bin/fluentd.sh start
+ExecStop=/usr/local/bin/fluentd.sh stop
+ExecReload=/usr/local/bin/fluentd.sh reload
+Restart=always
+PIDFile=/var/run/fluentd.pid
+TimeoutStartSec=1
+
+[Install]
+WantedBy=multi-user.target

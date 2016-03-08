@@ -1,0 +1,29 @@
+{% set fluentd = salt['grains.filter_by']({
+    'default': {
+        'service': 'fluentd',
+        'conf_file': '/etc/fluent/fluent.conf',
+    },
+    'Debian': {
+        'pkgs': [
+            'ruby',
+            'ruby-dev'
+        ]
+    },
+    'RedHat': {
+        'pkgs': [
+            'ruby',
+            'ruby-devel'
+        ]
+    },
+}, grain='os_family', merge=salt.pillar.get('fluentd:lookup'), base='default') %}
+
+{% set fluentd_service = {
+    'systemd': {
+        'destination_path': '/etc/systemd/system/fluentd.service',
+        'source_path': 'fluentd.service',
+    },
+    'upstart': {
+        'destination_path': '/etc/init/fluentd.conf',
+        'source_path': 'fluentd.upstart',
+    }
+} %}
