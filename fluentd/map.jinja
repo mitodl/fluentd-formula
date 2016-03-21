@@ -6,13 +6,16 @@
     'Debian': {
         'pkgs': [
             'ruby',
-            'ruby-dev'
+            'ruby-dev',
+            'build-essential'
         ]
     },
     'RedHat': {
         'pkgs': [
             'ruby',
-            'ruby-devel'
+            'ruby-devel',
+            'gcc',
+            'make'
         ]
     },
 }, grain='os_family', merge=salt.pillar.get('fluentd:lookup'), base='default') %}
