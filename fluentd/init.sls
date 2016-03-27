@@ -12,8 +12,11 @@ install_fluentd_gem:
 configure_fluentd:
   file.managed:
     - name: /etc/fluent/fluent.conf
-    - source: salt://fluentd/files/fluent.conf
+    - source: salt://fluentd/templates/fluent.conf
     - makedirs: True
+    - template: jinja
+    - context:
+        log_level: {{ fluentd.global_log_level }}
 
 make_fluent_config_directory:
   file.directory:
@@ -29,10 +32,7 @@ fluentd_control_script:
 configure_fluentd_service:
   file.managed:
     - name: {{ service.destination_path }}
-    - source: salt://fluentd/templates/{{ service.source_path }}
-    - template: jinja
-    - context:
-        log_level: {{ fluentd.global_log_level }}
+    - source: salt://fluentd/files/{{ service.source_path }}
 
 start_fluentd_service:
   service.running:
