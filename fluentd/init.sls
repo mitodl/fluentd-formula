@@ -29,7 +29,10 @@ fluentd_control_script:
 configure_fluentd_service:
   file.managed:
     - name: {{ service.destination_path }}
-    - source: salt://fluentd/files/{{ service.source_path }}
+    - source: salt://fluentd/templates/{{ service.source_path }}
+    - template: jinja
+    - context:
+        log_level: {{ fluentd.global_log_level }}
 
 start_fluentd_service:
   service.running:
