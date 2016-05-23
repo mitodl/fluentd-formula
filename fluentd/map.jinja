@@ -2,7 +2,13 @@
     'default': {
         'service': 'fluentd',
         'conf_file': '/etc/fluent/fluent.conf',
-        'global_log_level': 'info'
+        'global_log_level': 'info',
+        'nginx_config': {
+            'cert_file': 'fluentd.example.com.crt',
+            'key_file': 'fluentd.example.com.key'
+        },
+        'ssl_directory': '/etc/ssl',
+        'nginx_site_path': '/etc/nginx/sites-enabled'
     },
     'Debian': {
         'pkgs': [
@@ -19,9 +25,9 @@
             'make'
         ]
     },
-}, grain='os_family', merge=salt.pillar.get('fluentd:lookup'), base='default') %}
+}, grain='os_family', merge=salt.pillar.get('fluentd:overrides'), base='default') %}
 
-{% set fluentd_service = {
+{% set fluentd_service = salt.grains.filter_by({
     'systemd': {
         'destination_path': '/etc/systemd/system/fluentd.service',
         'source_path': 'fluentd.service',
@@ -30,4 +36,4 @@
         'destination_path': '/etc/init/fluentd.conf',
         'source_path': 'fluentd.upstart',
     }
-} %}
+}, grain='init', merge=salt.pillar.get('fluentd:init_service')) %}

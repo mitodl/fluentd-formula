@@ -21,4 +21,5 @@ base:
   '*':
     - fluentd
     - fluentd.plugins
-    - fluentd.config" | sudo tee /srv/salt/top.sls
+    - fluentd.config
+    - fluentd.reverse_proxy" | sudo tee /srv/salt/top.sls
