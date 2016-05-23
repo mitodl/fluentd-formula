@@ -19,12 +19,22 @@ Available states
 ``fluentd``
 -----------
 
-TODO - add description of this state
+Install the FluentD service for shipping and aggregating logs and other data.
 
 ``fluentd.conf``
 ----------------
 
-TODO - add description of this state
+Configure the installed FluentD service based on pillar data
+
+``fluentd.plugins``
+-------------------
+
+Install plugins for extending FluentD based on pillar data
+
+``fluentd.reverse_proxy``
+-------------------------
+
+Install and configure an Nginx HTTPS reverse proxy for encrypting traffic to HTTP based endpoints
 
 
 Template

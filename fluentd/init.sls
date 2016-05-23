@@ -1,5 +1,4 @@
 {% from "fluentd/map.jinja" import fluentd, fluentd_service with context %}
-{% set service = fluentd_service.get(salt.test.provider('service'), fluentd_service.systemd) %}
 
 install_fluentd_dependencies:
   pkg.installed:
@@ -31,8 +30,8 @@ fluentd_control_script:
 
 configure_fluentd_service:
   file.managed:
-    - name: {{ service.destination_path }}
-    - source: salt://fluentd/files/{{ service.source_path }}
+    - name: {{ fluentd_service.destination_path }}
+    - source: salt://fluentd/files/{{ fluentd_service.source_path }}
 
 start_fluentd_service:
   service.running:

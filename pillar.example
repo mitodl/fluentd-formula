@@ -1,5 +1,9 @@
 fluentd:
-  lookup:
+  overrides:
+  ssl:
+    cert_params:
+      CN: fluentd.example.com
+      bits: 4096
   plugins:
     - fluent-plugin-elasticsearch
     - fluent-plugin-postgres
