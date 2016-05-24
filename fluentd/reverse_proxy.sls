@@ -10,7 +10,7 @@ ensure_fluentd_ssl_directory:
     - name: {{ fluentd.ssl_directory }}/certs
     - makedirs: True
 
-{% if fluentd.nginx_config.get('cert_source') %}
+{% if fluentd.nginx_config.get('cert_source') or fluentd.nginx_config.get('cert_contents') %}
 setup_fluentd_ssl_cert:
   file.managed:
     - name: {{fluentd.ssl_directory}}/certs/{{ fluentd.nginx_config.cert_file }}
