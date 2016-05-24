@@ -61,7 +61,7 @@ configure_fluentd_nginx:
     - context:
         config: {{ fluentd.nginx_config }}
         ssl_directory: {{ fluentd.ssl_directory }}/certs
-        plugins: {{ salt.pillar.get('proxied_plugins', []) }}
+        plugins: {{ salt.pillar.get('fluentd:proxied_plugins', []) }}
 
 remove_default_nginx_config:
   file.absent:
