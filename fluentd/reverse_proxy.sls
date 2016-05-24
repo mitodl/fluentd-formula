@@ -48,7 +48,7 @@ generate_nginx_dhparam:
   cmd.run:
     - name: openssl dhparam -out dhparam.pem 2048
     - cwd: {{ fluentd.ssl_directory }}/certs
-    - unless: "[ -e {{ fluentd.ssl_directory }}/dhparam.pem ]"
+    - unless: "[ -e {{ fluentd.ssl_directory }}/certs/dhparam.pem ]"
     - require:
         - file: ensure_fluentd_ssl_directory
 
