@@ -10,13 +10,13 @@ ensure_fluentd_ssl_directory:
     - name: {{ fluentd.ssl_directory }}/certs
     - makedirs: True
 
-{% if fluentd.nginx_config.get('cert_source') %}
+{% if fluentd.nginx_config.get('cert_source') or fluentd.nginx_config.get('cert_contents') %}
 setup_fluentd_ssl_cert:
   file.managed:
     - name: {{fluentd.ssl_directory}}/certs/{{ fluentd.nginx_config.cert_file }}
-    {% if fluentd.nginx_config.cert_source %}
+    {% if fluentd.nginx_config.get('cert_source') %}
     - source: {{ fluentd.nginx_config.cert_source }}
-    {% elif fluentd.nginx_config.cert_contents %}
+    {% elif fluentd.nginx_config.get('cert_contents') %}
     - contents: |
         {{ fluentd.nginx_config.cert_contents | indent(8) }}
     {% endif %}
@@ -25,9 +25,9 @@ setup_fluentd_ssl_cert:
 setup_fluentd_ssl_key:
   file.managed:
     - name: {{fluentd.ssl_directory}}/certs/{{ fluentd.nginx_config.key_file }}
-    {% if fluentd.nginx_config.key_source %}
+    {% if fluentd.nginx_config.get('key_source') %}
     - source: {{ fluentd.nginx_config.key_source }}
-    {% elif fluentd.nginx_config.key_contents %}
+    {% elif fluentd.nginx_config.get('key_contents') %}
     - contents: |
         {{ fluentd.nginx_config.key_contents | indent(8) }}
     {% endif %}
