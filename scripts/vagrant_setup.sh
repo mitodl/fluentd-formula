@@ -1,5 +1,17 @@
 #!/bin/bash
 
+if [ $(which apt-get) ];
+then
+    sudo apt-get update
+    PKG_MANAGER="apt-get"
+    PKGS="ca-certificates"
+else
+    PKG_MANAGER="yum"
+    PKGS="ca-certificates"
+fi
+
+sudo $PKG_MANAGER -y install $PKGS
+
 if [ "$(ls /vagrant)" ]
 then
     SRCDIR=/vagrant
