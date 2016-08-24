@@ -18,7 +18,7 @@ stop () {
 reload () {
     if [ -e $PIDFILE ]
     then
-        /bin/kill -1 $(cat $PIDFILE)
+        /usr/bin/pkill -SIGHUP -F $PIDFILE
     else
         echo 'FluentD is not running'
     fi
