@@ -3,6 +3,7 @@ author "Tobias Macey"
 start on filesystem or runlevel [2345]
 stop on shutdown
 
+expect daemon
 script
   /usr/local/bin/fluentd -c /etc/fluent/fluent.conf
 end script
