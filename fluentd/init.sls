@@ -26,6 +26,9 @@ install_fluentd_dependencies:
 install_fluentd_gem:
   gem.installed:
     - name: fluentd
+    {% if fluentd.version %}
+    - version: {{ fluentd.version }}
+    {% endif %}
 
 configure_fluentd:
   file.managed:

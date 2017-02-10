@@ -1,5 +1,6 @@
 {% set fluentd = salt['grains.filter_by']({
     'default': {
+        'version': None,
         'service': 'fluentd',
         'conf_file': '/etc/fluent/fluent.conf',
         'global_log_level': 'info',

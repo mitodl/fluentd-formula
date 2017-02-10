@@ -1,7 +1,7 @@
 name: fluentd
 os: RedHat, CentOS, Ubuntu, Debian
 os_family: RedHat, Debian
-version: 201602
+version: 201702
 release: 1
 summary: SaltStack formula for installing and configuring FluentD
 description: SaltStack formula for installing and configuring FluentD
