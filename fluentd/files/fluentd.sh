@@ -9,7 +9,7 @@ start () {
 stop () {
     if [ -e $PIDFILE ]
     then
-        /bin/pkill -F $(cat $PIDFILE)
+        /usr/bin/pkill -F $PIDFILE
     else
         echo 'FluentD is not running'
     fi
