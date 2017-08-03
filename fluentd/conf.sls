@@ -12,5 +12,3 @@ fluentd-config:
       config: {{ fluentd_config }}
     - watch_in:
       - service: fluentd
-    - require:
-      - pkg: fluentd
