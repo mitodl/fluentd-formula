@@ -1,3 +1,5 @@
+{% set fluentd_config = {} %}
+
 {% set fluentd = salt['grains.filter_by']({
     'default': {
         'version': None,
