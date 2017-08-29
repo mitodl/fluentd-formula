@@ -1,5 +1,6 @@
 fluentd:
   overrides:
+  use_gem: True
   ssl:
     cert_params:
       CN: fluentd.example.com

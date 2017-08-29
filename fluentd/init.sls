@@ -1,65 +1,37 @@
-{% from "fluentd/map.jinja" import fluentd, fluentd_service with context %}
+{% from "fluentd/map.jinja" import fluentd with context %}
 
-{% if salt.grains.get('osfullname').lower() == 'ubuntu' and salt.grains.get('osmajorrelease')|int < 16 %}
-add_brightbox_ruby_ppa:
-  pkgrepo.managed:
-    - name: brightbox-ruby
-    - humanname: BrightBox Ruby PPA
-    - ppa: brightbox/ruby-ng
-
-install_ruby_deps:
-  pkg.installed:
-    - pkgs:
-        - ruby2.3
-        - ruby2.3-dev
-        - build-essential
-    - update: True
-    - require:
-        - pkgrepo: add_brightbox_ruby_ppa
-{% else %}
-install_fluentd_dependencies:
-  pkg.installed:
-    - pkgs: {{ fluentd.pkgs }}
-    - update: True
-{% endif %}
-
-install_fluentd_gem:
-  gem.installed:
-    - name: fluentd
-    {% if fluentd.version %}
-    - version: {{ fluentd.version }}
-    {% endif %}
+include:
+  - .install
 
 configure_fluentd:
   file.managed:
-    - name: /etc/fluent/fluent.conf
+    - name: {{ fluentd.conf_file }}
     - source: salt://fluentd/templates/fluent.conf
     - makedirs: True
     - template: jinja
     - context:
         log_level: {{ fluentd.global_log_level }}
+    - watch_in:
+        service: fluentd-service
 
-make_fluent_config_directory:
-  file.directory:
-    - name: /etc/fluent/fluent.d/
-    - makedirs: True
-
-fluentd_control_script:
+{% for config in salt.pillar.get('fluentd:configs', []) %}
+add_fluent_{{ config.name }}_config:
   file.managed:
-    - name: /usr/local/bin/fluentd.sh
-    - source: salt://fluentd/files/fluentd.sh
-    - mode: 0755
+    - name: {{ fluentd.conf_dir }}/{{ config.name }}.conf
+    - source: salt://fluentd/templates/fluent-config-template.conf
+    - template: jinja
+    - context:
+        settings: {{ config.settings }}
+    - watch_in:
+        service: fluentd-service
+{% endfor %}
 
-configure_fluentd_service:
-  file.managed:
-    - name: {{ fluentd_service.destination_path }}
-    - source: salt://fluentd/files/{{ fluentd_service.source_path }}
-
-start_fluentd_service:
+fluentd-service:
   service.running:
-    - name: fluentd
+    - name: {{ fluentd.service }}
     - enable: True
+{% if salt['pillar.get']('fluentd:use_gem', False) %}
+{% else %}
     - require:
-        - file: configure_fluentd_service
-    - watch:
-        - file: configure_fluentd
+      - pkg: install-fluentd
+{% endif %}

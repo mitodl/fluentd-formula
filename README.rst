@@ -21,11 +21,6 @@ Available states
 
 Install the FluentD service for shipping and aggregating logs and other data.
 
-``fluentd.conf``
-----------------
-
-Configure the installed FluentD service based on pillar data
-
 ``fluentd.plugins``
 -------------------
 
