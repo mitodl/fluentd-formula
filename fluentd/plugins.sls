@@ -7,6 +7,16 @@ install_fluentd_plugin_dependencies:
         - gem: install_fluentd_plugins
 {% endif %}
 
+{% if salt['pillar.get']('fluentd:use_gem', False) %}
 install_fluentd_plugins:
   gem.installed:
     - names: {{ salt.pillar.get('fluentd:plugins') }}
+{% else %}
+{% for plugin in pillar.get('fluentd:plugins').items() %}
+install_fluentd_plugin_{{ plugin }}:
+  cmd.run:
+    - name: td-agent-gem install {{ plugin }}
+    - unless: td-agent-gem list {{ plugin }} -i
+{% endfor %}
+{% endif %}
+
