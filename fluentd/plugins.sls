@@ -12,7 +12,7 @@ install_fluentd_plugins:
   gem.installed:
     - names: {{ salt.pillar.get('fluentd:plugins') }}
 {% else %}
-{% for plugin in pillar.get('fluentd:plugins').items() %}
+{% for plugin in pillar.get('fluentd:plugins', {}).iteritems() %}
 install_fluentd_plugin_{{ plugin }}:
   cmd.run:
     - name: td-agent-gem install {{ plugin }}
