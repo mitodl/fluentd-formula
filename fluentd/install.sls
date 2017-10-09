@@ -51,7 +51,7 @@ fluentd-repo:
     - file: /etc/apt/sources.list.d/fluentd.list
     - key_url: https://packages.treasuredata.com/GPG-KEY-td-agent
 {% elif grains['os_family'] == 'RedHat' %}
-    - baseurl: http://packages.treasuredata.com/2/redhat/{{ grains['osrelease'] }}/{{ grains['cpuarch'] }}
+    - baseurl: http://packages.treasuredata.com/2/redhat/{{ grains['osrelease_info'][0] }}.{{ grains['osrelease_info'][1] }}/{{ grains['cpuarch'] }}
     - gpgcheck: 1
     - gpgkey: https://packages.treasuredata.com/GPG-KEY-td-agent
 {% endif %}
