@@ -2,6 +2,7 @@
 
 include:
   - .install
+  - .plugins
 
 configure_fluentd:
   file.managed:
