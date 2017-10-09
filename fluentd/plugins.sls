@@ -12,7 +12,9 @@ install_fluentd_plugins:
   gem.installed:
     - names: {{ salt.pillar.get('fluentd:plugins') }}
     - require:
-      - service: fluentd-service
+      - file: configure_fluentd
+    - watch_in:
+        service: fluentd-service
 {% else %}
 {% for plugin in salt['pillar.get']('fluentd:plugins', {}) %}
 install_fluentd_plugin_{{ plugin }}:
@@ -20,7 +22,9 @@ install_fluentd_plugin_{{ plugin }}:
     - name: td-agent-gem install {{ plugin }}
     - unless: td-agent-gem list {{ plugin }} -i
     - require:
-      - service: fluentd-service
+      - file: configure_fluentd
+    - watch_in:
+        service: fluentd-service
 {% endfor %}
 {% endif %}
 
