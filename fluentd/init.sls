@@ -12,6 +12,7 @@ configure_fluentd:
     - template: jinja
     - context:
         log_level: {{ fluentd.global_log_level }}
+        conf_dir: {{ fluentd.conf_dir }}
     - watch_in:
         service: fluentd-service
 
