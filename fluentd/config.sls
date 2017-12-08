@@ -10,6 +10,15 @@ add_fluent_{{ config.name }}_config:
         - service: reload_fluentd_service
 {% endfor %}
 
+{% for name, path in salt.pillar.get('fluentd:persistent_directories', {}).items() %}
+create_directory_for_{{ name }}_logs:
+  file.directory:
+   - nane: {{ path }}
+   - makedirs: True
+   - user: fluentd
+   - group: fluentd
+{% endfor %}
+
 reload_fluentd_service:
   service.running:
     - name: fluentd
