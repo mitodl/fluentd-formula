@@ -60,8 +60,8 @@ configure_fluentd_service:
     - name: {{ fluentd_service.destination_path }}
     - source: salt://fluentd/templates/{{ fluentd_service.source_path }}
     - context:
-        User: {{ fluentd.user }}
-        Group: {{ fluentd. group }}
+        user: {{ fluentd.user }}
+        group: {{ fluentd. group }}
 
 start_fluentd_service:
   service.running:
