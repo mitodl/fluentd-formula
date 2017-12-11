@@ -4,7 +4,6 @@ install_fluentd_dependencies:
   pkg.installed:
     - pkgs: {{ fluentd.pkgs }}
     - update: True
-{% endif %}
 
 install_fluentd_gem:
   gem.installed:
