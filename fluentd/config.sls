@@ -1,4 +1,6 @@
 {% for config in salt.pillar.get('fluentd:configs', []) %}
+{% from "fluentd/map.jinja" import fluentd with context %}
+
 add_fluent_{{ config.name }}_config:
   file.managed:
     - name: /etc/fluent/fluent.d/{{ config.name }}.conf
@@ -15,8 +17,11 @@ create_directory_for_{{ name }}_logs:
   file.directory:
    - nane: {{ path }}
    - makedirs: True
-   - user: fluentd
-   - group: fluentd
+   - user: {{ fluentd.user }}
+   - group: {{ fluentd.group }}
+   - recurse:
+     - user
+     - group
 {% endfor %}
 
 reload_fluentd_service:

@@ -17,12 +17,14 @@ create_fluentd_user:
   user.present:
     - name: {{ fluentd.user }}
     - createhome: False
+    - system: True
 
 create_fluentd_group:
   group.present:
     - name: {{ fluentd.group }}
     - addusers:
         - {{ fluentd.user }}
+    - system: True
 
 configure_fluentd:
   file.managed:
@@ -41,6 +43,9 @@ make_fluent_config_directory:
     - makedirs: True
     - user: {{ fluentd.user }}
     - group: {{ fluentd.group }}
+    - recurse:
+      - user
+      - group
 
 fluentd_control_script:
   file.managed:
@@ -53,7 +58,10 @@ fluentd_control_script:
 configure_fluentd_service:
   file.managed:
     - name: {{ fluentd_service.destination_path }}
-    - source: salt://fluentd/files/{{ fluentd_service.source_path }}
+    - source: salt://fluentd/templates/{{ fluentd_service.source_path }}
+    - context:
+        User: {{ fluentd.user }}
+        Group: {{ fluentd. group }}
 
 start_fluentd_service:
   service.running:
