@@ -15,7 +15,7 @@ add_fluent_{{ config.name }}_config:
 {% for name, path in salt.pillar.get('fluentd:persistent_directories', {}).items() %}
 create_directory_for_{{ name }}_logs:
   file.directory:
-   - nane: {{ path }}
+   - name: {{ path }}
    - makedirs: True
    - user: {{ fluentd.user }}
    - group: {{ fluentd.group }}
