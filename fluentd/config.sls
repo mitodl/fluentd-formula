@@ -1,5 +1,5 @@
-{% for config in salt.pillar.get('fluentd:configs', []) %}
 {% from "fluentd/map.jinja" import fluentd with context %}
+{% for config in salt.pillar.get('fluentd:configs', []) %}
 
 add_fluent_{{ config.name }}_config:
   file.managed:
