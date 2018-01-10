@@ -31,16 +31,45 @@ install_fluentd_gem:
     - version: {{ fluentd.version }}
     {% endif %}
 
+create_fluentd_user:
+  user.present:
+    - name: {{ fluentd.user }}
+    - createhome: False
+    - system: True
+
+create_fluentd_group:
+  group.present:
+    - name: {{ fluentd.group }}
+    - addusers:
+        - {{ fluentd.user }}
+    - system: True
+
+configure_fluentd:
+  file.managed:
+    - name: /etc/fluent/fluent.conf
+    - source: salt://fluentd/templates/fluent.conf
+    - makedirs: True
+    - user: {{ fluentd.user }}
+    - group: {{ fluentd.group }}
+    - template: jinja
+    - context:
+        log_level: {{ fluentd.global_log_level }}
+
 fluentd_control_script:
   file.managed:
     - name: /usr/local/bin/fluentd.sh
     - source: salt://fluentd/files/fluentd.sh
     - mode: 0755
+    - user: {{ fluentd.user }}
+    - group: {{ fluentd.group }}
 
 configure_fluentd_service:
   file.managed:
     - name: {{ fluentd_service.destination_path }}
-    - source: salt://fluentd/files/{{ fluentd_service.source_path }}
+    - source: salt://fluentd/templates/{{ fluentd_service.source_path }}
+    - context:
+        user: {{ fluentd.user }}
+        group: {{ fluentd. group }}
 
 {% else  %}
 fluentd-repo:

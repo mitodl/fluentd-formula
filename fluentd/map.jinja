@@ -14,6 +14,8 @@
 {% do fluentd.update(salt['grains.filter_by']({
     'default': {
         'version': None,
+        'user': 'fluentd',
+        'group': 'fluentd',
         'global_log_level': 'info',
         'nginx_config': {
             'cert_file': 'fluentd.example.com.crt',
