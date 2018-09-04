@@ -57,7 +57,7 @@ fluentd_control_script:
 configure_fluentd_service:
   file.managed:
     - name: {{ fluentd_service.destination_path }}
-    - source: salt://fluentd/templates/{{ fluentd_service.source_path }}
+    - source: salt://fluentd/files/{{ fluentd_service.source_path }}
     - context:
         user: {{ fluentd.user }}
         group: {{ fluentd. group }}
