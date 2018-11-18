@@ -3,7 +3,16 @@
 PIDFILE=/var/run/fluentd.pid
 
 start () {
-    /usr/local/bin/fluentd -c /etc/fluent/fluent.conf -d $PIDFILE
+    PID=`pgrep -f "$PSNAME"`
+    if [ -z "$PID" ]; then
+      if [ -f $PID_FILE ]; then rm -f $PID_FILE; fi
+    else
+      echo "fluentd already started."
+      return -1
+    fi
+    echo -n "Starting fluentd: "
+    fluentd --daemon $PID_FILE --config $CONF_FILE 
+    echo "done."
 }
 
 stop () {

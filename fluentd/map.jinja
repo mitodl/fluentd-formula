@@ -1,10 +1,21 @@
-{% set fluentd = salt['grains.filter_by']({
+{% set fluentd = salt['pillar.filter_by']({
+    'default': {
+        'service': 'td-agent',
+        'conf_dir': '/etc/td-agent/td-agent.d',
+        'conf_file': '/etc/td-agent/td-agent.conf'
+    },
+    'True': {
+        'service': 'fluentd',
+        'conf_dir': '/etc/fluent/fluent.d',
+        'conf_file': '/etc/fluent/fluent.conf'
+    }
+}, 'fluentd:use_gem', base='default') %}
+
+{% do fluentd.update(salt['grains.filter_by']({
     'default': {
         'version': None,
-        'service': 'fluentd',
         'user': 'fluentd',
         'group': 'fluentd',
-        'conf_file': '/etc/fluent/fluent.conf',
         'global_log_level': 'info',
         'nginx_config': {
             'cert_file': 'fluentd.example.com.crt',
@@ -28,7 +39,7 @@
             'make'
         ]
     },
-}, grain='os_family', merge=salt.pillar.get('fluentd:overrides'), base='default') %}
+}, grain='os_family', merge=salt.pillar.get('fluentd:overrides'), base='default')) %}
 
 {% set fluentd_service = salt.grains.filter_by({
     'systemd': {

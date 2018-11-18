@@ -7,21 +7,24 @@ install_fluentd_plugin_dependencies:
         - gem: install_fluentd_plugins
 {% endif %}
 
+{% if salt['pillar.get']('fluentd:use_gem', False) %}
 install_fluentd_plugins:
   gem.installed:
     - names: {{ salt.pillar.get('fluentd:plugins') }}
-
-{% set http_plugins = salt.pillar.get('fluentd:http_plugins') %}
-{% for plugin in http_plugins %}
-download_{{ plugin.name }}_for_gem_install:
-  file.managed:
-    - name: /tmp/{{ plugin.name }}.gem
-    - source: {{ plugin.url }}
-    - source_hash: {{ plugin.source_hash }}
-
-install_{{ plugin.name }}_gem:
+    - require:
+      - file: configure_fluentd
+    - watch_in:
+        service: fluentd-service
+{% else %}
+{% for plugin in salt['pillar.get']('fluentd:plugins', {}) %}
+install_fluentd_plugin_{{ plugin }}:
   cmd.run:
-    - name: gem install --local /tmp/{{ plugin.name }}.gem
-    - onchanges:
-        - file: download_{{ plugin.name }}_for_gem_install
+    - name: td-agent-gem install {{ plugin }}
+    - unless: td-agent-gem list {{ plugin }} -i
+    - require:
+      - file: configure_fluentd
+    - watch_in:
+        service: fluentd-service
 {% endfor %}
+{% endif %}
+
