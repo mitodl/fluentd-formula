@@ -7,7 +7,7 @@ add_fluent_{{ config.name }}_config:
     - source: salt://fluentd/templates/fluent-config-template.conf
     - template: jinja
     - context:
-        settings: {{ config.settings }}
+        settings: {{ config.settings | tojson }}
     - watch_in:
         - service: reload_fluentd_service
 {% endfor %}
