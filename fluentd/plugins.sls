@@ -1,7 +1,7 @@
 {% if salt.pillar.get('fluentd:plugin_dependencies') %}
 install_fluentd_plugin_dependencies:
   pkg.installed:
-    - pkgs: {{ salt.pillar.get('fluentd:plugin_dependencies') }}
+    - pkgs: {{ salt.pillar.get('fluentd:plugin_dependencies') | tojson }}
     - refresh: True
     - require_in:
         - gem: install_fluentd_plugins
