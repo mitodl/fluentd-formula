@@ -95,7 +95,7 @@ Vagrant.configure(2) do |config|
   # SHELL
   config.vm.provision "shell", path: "scripts/vagrant_setup.sh"
   config.vm.provision :salt do |salt|
-    salt.bootstrap_options = '-U -Z'
+    salt.bootstrap_options = '-U'
     salt.masterless = true
     salt.run_highstate = true
     salt.colorize = true
