@@ -35,3 +35,6 @@ base:
     - fluentd.plugins
     - fluentd.config
     - fluentd.reverse_proxy" | sudo tee /srv/salt/top.sls
+
+# The salt-minion service needs this:
+sudo sh -c 'echo "127.0.0.1 salt" >> /etc/hosts'

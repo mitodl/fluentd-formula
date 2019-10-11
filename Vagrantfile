@@ -100,6 +100,8 @@ Vagrant.configure(2) do |config|
     salt.run_highstate = true
     salt.colorize = true
     salt.verbose = true
+    salt.install_type = 'git'
+    salt.install_args = 'v2019.2.0'
   end
   config.vm.provision "shell", path: "scripts/testinfra.sh"
 
