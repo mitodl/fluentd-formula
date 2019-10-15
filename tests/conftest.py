@@ -3,7 +3,7 @@ import re
 
 
 @pytest.fixture()
-def RubyGem(Command):
+def RubyGem(host):
     class GemClass():
         def __init__(self, pkg_name, gem_bin=None):
             self.gem_dict = {}
@@ -12,7 +12,7 @@ def RubyGem(Command):
                 args = ['%s list', gem_bin]
             else:
                 args = ['gem list']
-            for line in Command.check_output(*args).split('\n'):
+            for line in host.check_output(*args).split('\n'):
                 gem_re = re.compile('^([A-Za-z-_1-9]+) \((.*?)\)$')
                 if re.match(gem_re, line):
                     name, version = re.search(gem_re, line).groups()
