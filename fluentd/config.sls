@@ -9,7 +9,7 @@ add_fluent_{{ config.name }}_config:
     - context:
         settings: {{ config.settings | tojson }}
     - watch_in:
-        - service: reload_fluentd_service
+      - service: reload_fluentd_service
 {% endfor %}
 
 {% for name, path in salt.pillar.get('fluentd:persistent_directories', {}).items() %}
@@ -28,4 +28,5 @@ reload_fluentd_service:
   service.running:
     - name: fluentd
     - enable: True
+    - init_delay: 10
     - reload: True
