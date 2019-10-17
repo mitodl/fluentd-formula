@@ -26,7 +26,7 @@ Vagrant.configure(2) do |config|
   # Every Vagrant development environment requires a box. You can search for
   # boxes at https://atlas.hashicorp.com/search.
   config.vm.define "debian" do |debian|
-    debian.vm.box = "bento/debian-10"
+    debian.vm.box = "bento/debian-9"
     debian.vm.provision "shell", inline: "sudo apt-get update && sudo apt-get install ca-certificates"
   end
 
@@ -100,8 +100,6 @@ Vagrant.configure(2) do |config|
     salt.run_highstate = true
     salt.colorize = true
     salt.verbose = true
-    salt.install_type = 'git'
-    salt.install_args = 'v2019.2.0'
   end
   config.vm.provision "shell", path: "scripts/testinfra.sh"
 
