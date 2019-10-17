@@ -11,24 +11,65 @@
             'key_file': 'fluentd.example.com.key'
         },
         'ssl_directory': '/etc/ssl',
-        'nginx_site_path': '/etc/nginx/sites-enabled'
+        'nginx_site_path': '/etc/nginx/sites-enabled',
+        'ruby_version': '2.5.7'
     },
     'Debian': {
         'pkgs': [
             'ruby',
-            'ruby-dev',
-            'build-essential'
+            'git',
+            'openssl',
+            'libssl-dev',
+            'make',
+            'curl',
+            'autoconf',
+            'bison',
+            'build-essential',
+            'libffi-dev',
+            'libyaml-dev',
+            'libreadline-dev',
+            'zlib1g-dev',
+            'libncurses-dev'
         ]
     },
-    'RedHat': {
+    'Ubuntu': {
         'pkgs': [
             'ruby',
-            'ruby-devel',
-            'gcc',
-            'make'
+            'git',
+            'openssl',
+            'libssl-dev',
+            'make',
+            'curl',
+            'autoconf',
+            'bison',
+            'build-essential',
+            'libffi-dev',
+            'libyaml-dev',
+            'libreadline-dev',
+            'zlib1g-dev',
+            'libncurses5-dev'
         ]
     },
-}, grain='os_family', merge=salt.pillar.get('fluentd:overrides'), base='default') %}
+    'CentOS': {
+        'pkgs': [
+            'gcc',
+            'ruby',
+            'git',
+            'openssl',
+            'openssl-devel',
+            'make',
+            'curl',
+            'autoconf',
+            'bison',
+            'libffi-devel',
+            'libyaml-devel',
+            'readline-devel',
+            'zlib-devel',
+            'ncurses-devel',
+            'pyOpenSSL'
+        ]
+    },
+}, grain='os', merge=salt.pillar.get('fluentd:overrides'), base='default') %}
 
 {% set fluentd_service = salt.grains.filter_by({
     'systemd': {

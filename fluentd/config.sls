@@ -28,5 +28,5 @@ reload_fluentd_service:
   service.running:
     - name: fluentd
     - enable: True
-    - init_delay: 10
+    - init_delay: 20
     - reload: True

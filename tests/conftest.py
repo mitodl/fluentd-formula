@@ -5,7 +5,7 @@ import re
 @pytest.fixture()
 def RubyGem(host):
     class GemClass():
-        def __init__(self, pkg_name, gem_bin=None):
+        def __init__(self, pkg_name, gem_bin='/home/fluentd/.rbenv/shims/gem'):
             self.gem_dict = {}
             self.pkg_name = pkg_name
             if gem_bin:

@@ -15,4 +15,4 @@ else
     SRCDIR=/home/vagrant/sync
 fi
 sudo rm -rf $SRCDIR/tests/__pycache__
-py.test $SRCDIR/tests -s
+sudo -u fluentd -i py.test $SRCDIR/tests -s

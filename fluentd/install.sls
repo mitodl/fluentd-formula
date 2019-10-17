@@ -1,22 +1,10 @@
 {% from "fluentd/map.jinja" import fluentd, fluentd_service with context %}
 
-install_fluentd_dependencies:
-  pkg.installed:
-    - pkgs: {{ fluentd.pkgs }}
-    - update: True
-
-install_fluentd_gem:
-  gem.installed:
-    - name: fluentd
-    {% if fluentd.version %}
-    - version: {{ fluentd.version }}
-    {% endif %}
-
 create_fluentd_user:
   user.present:
     - name: {{ fluentd.user }}
-    - createhome: False
-    - system: True
+    - createhome: True
+    - shell: /bin/bash
 
 create_fluentd_group:
   group.present:
@@ -24,6 +12,26 @@ create_fluentd_group:
     - addusers:
         - {{ fluentd.user }}
     - system: True
+
+install_rbenv_and_fluentd_dependencies:
+  pkg.installed:
+    - pkgs: {{ fluentd.pkgs }}
+    - update: True
+
+install_rbenv:
+  rbenv.installed:
+    - name: {{ fluentd.ruby_version }}
+    - default: True
+    - user: {{ fluentd.user }}
+
+install_fluentd_gem:
+  gem.installed:
+    - name: fluentd
+    {% if fluentd.version %}
+    - version: {{ fluentd.version }}
+    {% endif %}
+    - user: {{ fluentd.user }}
+    - ruby: {{ fluentd.ruby_version }}
 
 configure_fluentd:
   file.managed:
@@ -46,6 +54,15 @@ make_fluent_config_directory:
       - user
       - group
 
+make_fluentd_pidfile_directory:
+  file.directory:
+    - name: /run/fluentd
+    - user: {{ fluentd.user }}
+    - group: {{ fluentd.group }}
+    - recurse:
+      - user
+      - group
+
 fluentd_control_script:
   file.managed:
     - name: /usr/local/bin/fluentd.sh
@@ -57,7 +74,8 @@ fluentd_control_script:
 configure_fluentd_service:
   file.managed:
     - name: {{ fluentd_service.destination_path }}
-    - source: salt://fluentd/files/{{ fluentd_service.source_path }}
+    - source: salt://fluentd/templates/{{ fluentd_service.source_path }}
+    - template: jinja
     - context:
         user: {{ fluentd.user }}
         group: {{ fluentd. group }}

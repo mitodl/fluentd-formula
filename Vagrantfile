@@ -31,7 +31,7 @@ Vagrant.configure(2) do |config|
   end
 
   config.vm.define "centos" do |centos|
-    centos.vm.box = "bento/centos-8"
+    centos.vm.box = "bento/centos-7"
     centos.vm.provision "shell", inline: "sudo yum install ca-certificates"
   end
 
