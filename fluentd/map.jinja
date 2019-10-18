@@ -11,68 +11,27 @@
             'key_file': 'fluentd.example.com.key'
         },
         'ssl_directory': '/etc/ssl',
-        'nginx_site_path': '/etc/nginx/sites-enabled',
-        'ruby_version': '2.5.7'
+        'nginx_site_path': '/etc/nginx/sites-enabled'
     },
     'Debian': {
         'pkgs': [
             'ruby',
-            'git',
-            'openssl',
-            'libssl-dev',
-            'make',
-            'curl',
-            'autoconf',
-            'bison',
+            'ruby-dev',
             'build-essential',
-            'libffi-dev',
-            'libyaml-dev',
-            'libreadline-dev',
-            'zlib1g-dev',
-            'libncurses5-dev',
             'python3-openssl'
         ]
     },
-    'Ubuntu': {
+    'RedHat': {
         'pkgs': [
             'ruby',
-            'git',
-            'openssl',
-            'libssl-dev',
-            'make',
-            'curl',
-            'autoconf',
-            'bison',
-            'build-essential',
-            'libffi-dev',
-            'libyaml-dev',
-            'libreadline-dev',
-            'zlib1g-dev',
-            'libncurses5-dev',
-            'python3-openssl'
-        ]
-    },
-    'CentOS': {
-        'pkgs': [
+            'ruby-devel',
             'gcc',
-            'ruby',
-            'git',
-            'openssl',
-            'openssl-devel',
             'make',
-            'curl',
-            'autoconf',
-            'bison',
-            'libffi-devel',
-            'libyaml-devel',
-            'readline-devel',
-            'zlib-devel',
-            'ncurses-devel',
             'pyOpenSSL',
             'python36-pyOpenSSL'
         ]
     },
-}, grain='os', merge=salt.pillar.get('fluentd:overrides'), base='default') %}
+}, grain='os_family', merge=salt.pillar.get('fluentd:overrides'), base='default') %}
 
 {% set fluentd_service = salt.grains.filter_by({
     'systemd': {

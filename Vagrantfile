@@ -30,10 +30,10 @@ Vagrant.configure(2) do |config|
     debian.vm.provision "shell", inline: "sudo apt-get update && sudo apt-get install ca-certificates"
   end
 
-  config.vm.define "centos" do |centos|
-    centos.vm.box = "bento/centos-7"
-    centos.vm.provision "shell", inline: "sudo yum install ca-certificates"
-  end
+  # config.vm.define "centos" do |centos|
+  #   centos.vm.box = "bento/centos-7"
+  #   centos.vm.provision "shell", inline: "sudo yum install ca-certificates"
+  # end
 
   config.vm.define "ubuntu" do |ubuntu|
     ubuntu.vm.box = "bento/ubuntu-18.04"

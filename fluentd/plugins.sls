@@ -12,8 +12,6 @@ install_fluentd_plugin_dependencies:
 install_fluentd_plugins:
   gem.installed:
     - names: {{ salt.pillar.get('fluentd:plugins') | tojson }}
-    - user: {{ fluentd.user }}
-    - ruby: {{ fluentd.ruby_version }}
 
 {% set http_plugins = salt.pillar.get('fluentd:http_plugins') %}
 {% for plugin in http_plugins %}

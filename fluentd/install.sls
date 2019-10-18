@@ -13,16 +13,10 @@ create_fluentd_group:
         - {{ fluentd.user }}
     - system: True
 
-install_rbenv_and_fluentd_dependencies:
+install_fluentd_dependencies:
   pkg.installed:
     - pkgs: {{ fluentd.pkgs }}
     - update: True
-
-install_rbenv:
-  rbenv.installed:
-    - name: {{ fluentd.ruby_version }}
-    - default: True
-    - user: {{ fluentd.user }}
 
 install_fluentd_gem:
   gem.installed:
@@ -30,8 +24,6 @@ install_fluentd_gem:
     {% if fluentd.version %}
     - version: {{ fluentd.version }}
     {% endif %}
-    - user: {{ fluentd.user }}
-    - ruby: {{ fluentd.ruby_version }}
 
 configure_fluentd:
   file.managed:
