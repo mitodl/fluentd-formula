@@ -8,6 +8,10 @@ fluentd:
     - fluent-plugin-elasticsearch
     - fluent-plugin-postgres
     - fluent-plugin-hipchat
+  proxied_plugins:
+    - route: mailgun-webhooks
+      port: 9001
+      token: testtoken
   plugin_dependencies:
     {% if grains['os_family'] == 'Debian' %}
     - libpq-dev
