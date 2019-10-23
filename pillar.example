@@ -25,14 +25,14 @@ fluentd:
         - directive: match
           directive_arg: 'syslog.*'
           attrs:
-            - type: copy
+            - '@type': copy
             - nested_directives:
                 - directive: store
                   attrs:
-                    - type: stdout
+                    - '@type': stdout
                 - directive: store
                   attrs:
-                    - type: elasticsearch
+                    - '@type': elasticsearch
                     - logstash_format: true
                     - flush_interval: 10s
                     - host: localhost

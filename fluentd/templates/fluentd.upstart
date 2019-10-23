@@ -2,8 +2,10 @@ description "Event processing framework"
 author "Tobias Macey"
 start on filesystem or runlevel [2345]
 stop on shutdown
+setuid {{ user }}
+setgid {{ group }}
 
 expect daemon
 script
-  /usr/local/bin/fluentd -c /etc/fluent/fluent.conf
+  /usr/local/bin/fluentd.sh start
 end script

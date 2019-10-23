@@ -10,20 +10,33 @@ Vagrant.configure(2) do |config|
   # For a complete reference, please see the online documentation at
   # https://docs.vagrantup.com.
 
+  # As of vagrant-vbguest plugin version 0.20.0, the plugin seems to be
+  # trying to install packages that don't exist, for the Debian and Ubuntu VMs.
+  # It tries to install kernel-headers with
+  #     apt-get install -y linux-headers-`uname -r` dkms
+  # On Debian 10, as an example, the kernel version is 4.19.0-5-amd64, but no
+  # such package "kernel-headers-4.19.0-5-amd64" exists in the package
+  # repository. Oddly, there is a package for 4.19.0-6, but the kernel is the
+  # lower version. Rather than dig too deeply into this right now, let's
+  # disable Guest Additions auto-update, because it's not crucial for testing
+  # this Salt formula.
+  #
+  config.vbguest.auto_update = false
+
   # Every Vagrant development environment requires a box. You can search for
   # boxes at https://atlas.hashicorp.com/search.
   config.vm.define "debian" do |debian|
-    debian.vm.box = "debian/jessie64"
+    debian.vm.box = "bento/debian-9"
     debian.vm.provision "shell", inline: "sudo apt-get update && sudo apt-get install ca-certificates"
   end
 
-  config.vm.define "centos" do |centos|
-    centos.vm.box = "centos/7"
-    centos.vm.provision "shell", inline: "sudo yum install ca-certificates"
-  end
+  # config.vm.define "centos" do |centos|
+  #   centos.vm.box = "bento/centos-7"
+  #   centos.vm.provision "shell", inline: "sudo yum install ca-certificates"
+  # end
 
   config.vm.define "ubuntu" do |ubuntu|
-    ubuntu.vm.box = "ubuntu/trusty64"
+    ubuntu.vm.box = "bento/ubuntu-18.04"
   end
 
   # Disable automatic box update checking. If you disable this, then
@@ -82,7 +95,7 @@ Vagrant.configure(2) do |config|
   # SHELL
   config.vm.provision "shell", path: "scripts/vagrant_setup.sh"
   config.vm.provision :salt do |salt|
-    salt.bootstrap_options = '-U -Z'
+    salt.bootstrap_options = '-U -x python3 -A 127.0.0.1'
     salt.masterless = true
     salt.run_highstate = true
     salt.colorize = true

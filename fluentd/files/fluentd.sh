@@ -1,6 +1,6 @@
 #!/bin/bash
 
-PIDFILE=/var/run/fluentd.pid
+PIDFILE=/run/fluentd/fluentd.pid
 
 start () {
     /usr/local/bin/fluentd -c /etc/fluent/fluent.conf -d $PIDFILE

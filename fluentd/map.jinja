@@ -17,7 +17,8 @@
         'pkgs': [
             'ruby',
             'ruby-dev',
-            'build-essential'
+            'build-essential',
+            'python3-openssl'
         ]
     },
     'RedHat': {
@@ -25,7 +26,9 @@
             'ruby',
             'ruby-devel',
             'gcc',
-            'make'
+            'make',
+            'pyOpenSSL',
+            'python36-pyOpenSSL'
         ]
     },
 }, grain='os_family', merge=salt.pillar.get('fluentd:overrides'), base='default') %}

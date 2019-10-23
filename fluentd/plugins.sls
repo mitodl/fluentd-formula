@@ -1,7 +1,9 @@
+{% from "fluentd/map.jinja" import fluentd, fluentd_service with context %}
+
 {% if salt.pillar.get('fluentd:plugin_dependencies') %}
 install_fluentd_plugin_dependencies:
   pkg.installed:
-    - pkgs: {{ salt.pillar.get('fluentd:plugin_dependencies') }}
+    - pkgs: {{ salt.pillar.get('fluentd:plugin_dependencies') | tojson }}
     - refresh: True
     - require_in:
         - gem: install_fluentd_plugins
@@ -9,7 +11,7 @@ install_fluentd_plugin_dependencies:
 
 install_fluentd_plugins:
   gem.installed:
-    - names: {{ salt.pillar.get('fluentd:plugins') }}
+    - names: {{ salt.pillar.get('fluentd:plugins') | tojson }}
 
 {% set http_plugins = salt.pillar.get('fluentd:http_plugins') %}
 {% for plugin in http_plugins %}

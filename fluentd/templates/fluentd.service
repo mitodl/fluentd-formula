@@ -3,13 +3,16 @@ Description=FluentD log processing framework
 Documentation=http://docs.fluentd.org/articles/quickstart
 
 [Service]
+User={{ user }}
+Group={{ group }}
 Type=forking
 ExecStart=/usr/local/bin/fluentd.sh start
 ExecStop=/usr/local/bin/fluentd.sh stop
 ExecReload=/usr/local/bin/fluentd.sh reload
-Restart=always
-PIDFile=/var/run/fluentd.pid
-TimeoutStartSec=1
+Restart=on-failure
+RestartSec=10
+TimeoutSec=120
+PIDFile=/run/fluentd/fluentd.pid
 
 [Install]
 WantedBy=multi-user.target

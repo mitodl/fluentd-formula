@@ -6,7 +6,7 @@ then
 fi
 if [[ -z $(which testinfra) ]]
 then
-    sudo pip install testinfra
+    sudo pip install testinfra~=3.2 pytest~=4.6
 fi
 if [ "$(ls /vagrant)" ]
 then
@@ -15,4 +15,4 @@ else
     SRCDIR=/home/vagrant/sync
 fi
 sudo rm -rf $SRCDIR/tests/__pycache__
-testinfra $SRCDIR/tests -s
+sudo -u fluentd -i py.test $SRCDIR/tests -s
