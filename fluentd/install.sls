@@ -1,18 +1,5 @@
 {% from "fluentd/map.jinja" import fluentd, fluentd_service with context %}
 
-create_fluentd_user:
-  user.present:
-    - name: {{ fluentd.user }}
-    - createhome: True
-    - shell: /bin/bash
-
-create_fluentd_group:
-  group.present:
-    - name: {{ fluentd.group }}
-    - addusers:
-        - {{ fluentd.user }}
-    - system: True
-
 install_fluentd_dependencies:
   pkg.installed:
     - pkgs: {{ fluentd.pkgs }}
