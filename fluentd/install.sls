@@ -55,6 +55,15 @@ make_fluentd_pidfile_directory:
       - user
       - group
 
+make_fluentd_pos_file_directory:
+  file.directory:
+    - name: /var/lib/fluentd
+    - user: {{ fluentd.user }}
+    - group: {{ fluentd.group }}
+    - recurse:
+      - user
+      - group
+
 fluentd_control_script:
   file.managed:
     - name: /usr/local/bin/fluentd.sh
