@@ -27,9 +27,9 @@ create_directory_for_{{ name }}_logs:
 {% for cert, details in salt.pillar.get('fluentd:cert', {}).items() %}
 create_{{ cert }}_file:
   file.managed:
-    - name: {{ details['path'] }}
+    - name: {{ details.path }}
     - contents: |
-        {{ details['content']|indent(8) }}
+        {{ details.content|indent(8) }}
     - user: {{ fluentd.user }}
     - group: {{ fluentd.group }}
     - mode: '0400'
