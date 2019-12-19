@@ -4,10 +4,22 @@ fluentd:
     cert_params:
       CN: fluentd.example.com
       bits: 4096
+  cert:
+    fluentd_cert:
+      content: |
+        -----BEGIN CERTIFICATE-----
+        (Your Primary SSL certificate: www.example.com.crt)
+        -----END CERTIFICATE-----
+      path: '/etc/fluent/fluentd.crt'
+    fluentd_key:
+      content: |
+        -----BEGIN RSA PRIVATE KEY-----
+        (Your Private Key: www.example.com.key)
+        -----END RSA PRIVATE KEY-----
+      path: '/etc/fluentd/flunetd.key'
   plugins:
     - fluent-plugin-elasticsearch
     - fluent-plugin-postgres
-    - fluent-plugin-hipchat
   proxied_plugins:
     - route: mailgun-webhooks
       port: 9001
