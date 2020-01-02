@@ -35,6 +35,18 @@ create_{{ cert }}_file:
     - mode: '0400'
 {% endfor %}
 
+{% for ca_chain, details in salt.pillar.get('fluentd:pki', {}).items() %}
+create_{{ ca_chain }}_file:
+  file.managed:
+    - name: {{ details.path }}
+    - contents: |
+        {{ details.content|indent(8) }}
+
+update_ca_cert_store:
+  cmd.run:
+    - name: update-ca-certificates
+{% endfor %}
+
 reload_fluentd_service:
   service.running:
     - name: fluentd
