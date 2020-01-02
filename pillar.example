@@ -17,6 +17,13 @@ fluentd:
         (Your Private Key: www.example.com.key)
         -----END RSA PRIVATE KEY-----
       path: '/etc/fluentd/flunetd.key'
+  pki:
+    ca_chain:
+      content: |
+         -----BEGIN CERTIFICATE-----
+        (Your PKI cert chain)
+        -----END CERTIFICATE-----
+      path: '/usr/local/share/ca-certificates/ca_chain.crt'
   plugins:
     - fluent-plugin-elasticsearch
     - fluent-plugin-postgres
