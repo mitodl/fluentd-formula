@@ -1,13 +1,13 @@
 {% from "fluentd/map.jinja" import fluentd with context %}
-{% for config in salt.pillar.get('fluentd:configs', []) %}
+{% for fname, config in salt.pillar.get('fluentd:configs', {}).items() %}
 
-add_fluent_{{ config.name }}_config:
+add_fluent_{{ fname }}_config:
   file.managed:
-    - name: /etc/fluent/fluent.d/{{ config.name }}.conf
+    - name: /etc/fluent/fluent.d/{{ fname }}.conf
     - source: salt://fluentd/templates/fluent-config-template.conf
     - template: jinja
     - context:
-        settings: {{ config.settings | tojson }}
+        settings: {{ config }}
     - watch_in:
       - service: reload_fluentd_service
 {% endfor %}
