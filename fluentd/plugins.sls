@@ -9,9 +9,11 @@ install_fluentd_plugin_dependencies:
         - gem: install_fluentd_plugins
 {% endif %}
 
+{% if salt.pillar.get('fluentd:plugins') %}
 install_fluentd_plugins:
   gem.installed:
     - names: {{ salt.pillar.get('fluentd:plugins', []) | tojson }}
+{% endif %}
 
 {% set http_plugins = salt.pillar.get('fluentd:http_plugins', []) %}
 {% for plugin in http_plugins %}
